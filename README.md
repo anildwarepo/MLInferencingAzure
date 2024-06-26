@@ -23,7 +23,7 @@ This repository provides a step-by-step guide to setting up an asynchronous infe
 * Azure Machine Learning endpoints for synchronous and asynchronous inferencing.
 * Prebuilt scoring file for synchronous and asynchronous inferencing. The same does both.
 
-### Referencing Architecture
+### Reference Architecture
 
 ![](./MLEndpointswithAsyncInferencing.drawio.png)
 
@@ -49,6 +49,45 @@ Azure Service Bus is a fully managed enterprise message broker with message queu
 - **Definition**: Sessions are a way to group related messages for ordered processing.
 - **Use Case**: Useful for scenarios where the order of message processing is crucial, such as processing transactions in sequence.
 - **Example**: A session can ensure that messages related to a particular user or process are handled in the correct order.
+
+
+## Prerequisites
+
+Before you begin, ensure you have the following installed on your system:
+
+1. **Python 3.10**
+   - Download and install Python 3.10 from the official [Python website](https://www.python.org/downloads/release/python-3100/).
+   - Verify the installation by running:
+     ```sh
+     python --version
+     ```
+
+2. **Azure Subscription**
+   - You need an active Azure subscription. If you don't have one, you can create a free account at [Azure Free Account](https://azure.microsoft.com/en-us/free/).
+
+3. **Azure CLI**
+   - Install the Azure CLI by following the instructions on the [Azure CLI Installation](https://docs.microsoft.com/en-us/cli/azure/install-azure-cli) page.
+   - Verify the installation by running:
+     ```sh
+     az --version
+     ```
+
+4. **Azure Machine Learning CLI v2**
+   
+    - Install the Azure Machine Learning CLI v2 by following the instructions on the [Azure Machine Learning CLI Installation](https://learn.microsoft.com/en-us/azure/machine-learning/how-to-configure-cli?view=azureml-api-2&tabs=public) page.
+   
+
+5. **Windows or Mac OS Terminal**
+   - Ensure you have access to the terminal on your operating system.
+     - For Windows: You can use Command Prompt, PowerShell, or Windows Terminal.
+     - For Mac OS: Use the Terminal application.
+   - Verify the terminal access by opening it and running a simple command like:
+     ```sh
+     echo "Terminal is working"
+     ```
+
+
+
 
 ## Create Azure Service Bus Namespace
 
