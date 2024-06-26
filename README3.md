@@ -46,7 +46,7 @@ az ml online-deployment create --file deployment_async.yml
 
 az ml online-endpoint update --name ml-inferencing-endpoint --traffic "production=100"
 
-
+az ml online-deployment update --file deployment_async.yml
 
 upload blob and send blob url to service bus topic
 ml endpoint received message, downloads blob, runs model, sends result to service bus topic

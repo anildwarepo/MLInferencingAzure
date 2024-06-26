@@ -17,6 +17,10 @@
 Asynchronous machine learning inferencing involves using Azure Service Bus and Azure Machine Learning endpoints to handle large-scale data processing in a non-blocking manner. This approach is beneficial for scenarios where immediate responses are not necessary, and processing can be queued and handled as resources become available.
 
 
+### Referencing Architecture
+
+![](./MLEndpointswithAsyncInferencing.drawio.png)
+
 
 ## Azure Service Bus Concepts
 
@@ -72,6 +76,24 @@ To set up an Azure Machine Learning Workspace, you can follow the detailed steps
     az ml workspace set -g aml-rg -w aml-northcentral
     ```
 
+## Registering an Azure ML Model
+
+To register a model in Azure Machine Learning, follow these steps:
+    
+```bash
+az ml model register --name ml-inferening-base-model --version 1 --type MLFLOW --path ./model_artifacts
+```
+
+## Creating Azure ML Environments
+
+To create environments for Azure Machine Learning, follow these steps:
+    
+```bash
+cd environment
+az ml environment create -f env_async.yml
+```
+
+
 ## Azure Machine Learning Endpoint
 
 Azure Machine Learning endpoints are used to deploy models and handle inferencing requests. The endpoint can be configured to process incoming requests asynchronously, providing scalable and reliable inferencing capabilities.
@@ -79,21 +101,27 @@ Azure Machine Learning endpoints are used to deploy models and handle inferencin
 ### Key Operations
 
 1. **Create Endpoint**:
+    ```
+    cd async_inferencing
+    ```
+
     ```bash
-    az ml online-endpoint create --file endpoint.yml
+    az ml online-endpoint create --file endpoint_async.yml 
     ```
 2. **Create Deployment**:
     ```bash
-    az ml online-deployment create --file deployment_production.yml
+    az ml online-deployment create --file deployment_async.yml 
     ```
 3. **Update Endpoint Traffic**:
     ```bash
-    az ml online-endpoint update --name ml-inferencing-endpoint --traffic "production=100"
+    az ml online-endpoint update --name ml-inferencing-endpoint-async --traffic "async=100"
     ```
 
 ## Machine Learning Scoring File
 
 The scoring file is a script that defines how the model processes input data and produces output. This script is executed by the Azure Machine Learning endpoint to perform inferencing.
+
+This provided scoring file operates in both sync and async modes. The sync mode processes the data immediately, while the async mode downloads the file from remote storage and processes the data and publishes the results to the Azure Service Bus topic.
 
 ### Example Structure
 
@@ -104,15 +132,14 @@ The scoring file is a script that defines how the model processes input data and
     ```python
     def init():
         global model
-        model = load_model('model_path')
+        # Get the path to the deployed model file and load it
+        model_dir =os.getenv('AZUREML_MODEL_DIR')
+        model_file = os.listdir(model_dir)[0]
+        model_path = os.path.join(os.getenv('AZUREML_MODEL_DIR'), model_file)
+        model = mlflow.sklearn.load_model(model_path)
     ```
 
 2. **Run Function**:
-    - Handle incoming data.
-    - Perform preprocessing.
-    - Run the model prediction.
-    - Post-process and return the result.
-
     ```python
     def run(data):
         input_data = preprocess(data)

@@ -12,7 +12,7 @@ import os
 
 CONNECTION_STR = os.environ["AzureServiceBus_Connection_String"]
 TOPIC_NAME = os.environ["Topic_Name"]
-SUBSCRIPTION_NAME = os.environ["Subscription_Name"]
+ML_ENDPOINT_SUBSCRIPTION_NAME = os.environ["Subscription_Name"]
 
 
 session_id = uuid.uuid4()
