@@ -6,8 +6,9 @@ import pandas as pd
 import threading
 import json
 import time
-from async_inferencing.azureblob_helper import uploadFile
 import async_inferencing.load_env
+from async_inferencing.azureblob_helper import uploadFile
+
 import os
 
 CONNECTION_STR = os.environ["AzureServiceBus_Connection_String"]

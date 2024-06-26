@@ -4,7 +4,7 @@ import os
 
 
 connection_string = os.environ["AzureBlobStorage_Connection_String"]
-container_name = os.environ["mlinferencing"]
+container_name = os.environ["AzureBlob_Container_Name"]
 blob_name = os.environ["Blob_Name"]
 
 def uploadFile(filePath):

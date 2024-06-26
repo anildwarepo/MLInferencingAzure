@@ -233,13 +233,38 @@ Retrieve endpoint url and key from Azure Machine Learning Studio.
 
 Update the `endpoint_url` and `endpoint_key` in the `test-ml-endpoint-async.py` file.
 
+- **Synchronous Test**:
     ```bash
     python .\test-ml-endpoint-async.py sync
     ```
+
+- **Expected Result**:
+    ```bash
+    python .\test-ml-endpoint-async.py sync
+    Environment variables loaded from secrets.env
+    b'"[false]"'
+    ```
+- The sync operation returns the predictions immediately through the Rest API.
+
 
 - **Asynchronous Test**:
     ```bash
     python .\test-ml-endpoint-async.py async
     ```
+- **Expected Result**:
+    ```bash
+        python .\test-ml-endpoint-async.py async
+    Environment variables loaded from secrets.env
+    Starting to receive messages on client session-id 1476c5fb-5c53-4680-b020-447984417b27...
+    Press y to send json payload: y
+    File ./test-data-scoring-async.json uploaded to container mlinferencing as blob test-data-scoring-async.json
+    Messages sent.
 
+    Received on client:
+    {"session_id": "1476c5fb-5c53-4680-b020-447984417b27", "blob_url": "https://anildwaadlsgen2.blob.core.windows.net/mlinferencing/test-data-scoring-async.json"}
+    Press y to send json payload:
+    Received on client:
+    Message received on 1476c5fb-5c53-4680-b020-447984417b27:[False]
+    ```
+- The async operation returns the prediction asynchronously through the service bus topic.
 
