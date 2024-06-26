@@ -1,0 +1,34 @@
+artifact_path: outputs/mlflow-model
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.pkl
+    predict_fn: predict
+    python_version: 3.8.17
+  sklearn:
+    code: null
+    pickled_model: model.pkl
+    serialization_format: pickle
+    sklearn_version: 0.22.1
+metadata:
+  azureml.base_image: mcr.microsoft.com/azureml/curated/azureml-automl:142
+  azureml.engine: automl
+mlflow_version: 2.4.1
+model_uuid: e9df5b4a0cd9413a8caa3182360d0021
+run_id: jolly_circle_ywmvvvb4dc_3
+signature:
+  inputs: '[{"type": "string", "name": "customerID"}, {"type": "string", "name": "gender"},
+    {"type": "long", "name": "SeniorCitizen"}, {"type": "boolean", "name": "Partner"},
+    {"type": "boolean", "name": "Dependents"}, {"type": "long", "name": "tenure"},
+    {"type": "boolean", "name": "PhoneService"}, {"type": "string", "name": "MultipleLines"},
+    {"type": "string", "name": "InternetService"}, {"type": "string", "name": "OnlineSecurity"},
+    {"type": "string", "name": "OnlineBackup"}, {"type": "string", "name": "DeviceProtection"},
+    {"type": "string", "name": "TechSupport"}, {"type": "string", "name": "StreamingTV"},
+    {"type": "string", "name": "StreamingMovies"}, {"type": "string", "name": "Contract"},
+    {"type": "boolean", "name": "PaperlessBilling"}, {"type": "string", "name": "PaymentMethod"},
+    {"type": "double", "name": "MonthlyCharges"}, {"type": "double", "name": "TotalCharges"}]'
+  outputs: '[{"type": "tensor", "tensor-spec": {"dtype": "bool", "shape": [-1]}}]'
+utc_time_created: '2023-09-08 21:38:55.389105'

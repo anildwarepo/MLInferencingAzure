@@ -1,0 +1,12 @@
+$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
+name: async
+endpoint_name: ml-inferencing-endpoint-async #setup replace `mlops-workshop-endpoint` with your own endpoint name defined in endpoint.yml
+#egress_public_network_access: disabled # not required for managed vnet
+model: azureml:ml-inferening-base-model:1
+code_configuration:
+  code: ./
+  scoring_script: score_async.py
+environment: azureml:ml-inferening-base-environment_async:1
+instance_type: Standard_DS1_v2
+instance_count: 1
+app_insights_enabled: true

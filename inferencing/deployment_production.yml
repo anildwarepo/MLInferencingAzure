@@ -1,0 +1,12 @@
+$schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
+name: production
+endpoint_name: ml-inferencing-endpoint #setup replace `mlops-workshop-endpoint` with your own endpoint name defined in endpoint.yml
+#egress_public_network_access: disabled # not required for managed vnet
+model: azureml:ml-inferening-base-model:1
+code_configuration:
+  code: ./
+  scoring_script: score.py
+environment: azureml:ml-inferening-base-environment:1
+instance_type: Standard_DS1_v2
+instance_count: 1
+app_insights_enabled: true

@@ -1,0 +1,6 @@
+$schema: https://azuremlschemas.azureedge.net/latest/model.schema.json
+name: ml-inferening-base-model
+version: 1
+type: mlflow_model
+path: ./model_artifacts/mlflow-model
+description: Model created from local file.

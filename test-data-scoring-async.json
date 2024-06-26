@@ -1,0 +1,27 @@
+{
+  "session_id" : "",
+  "data": [
+    {
+      "customerID": "4376-KFVRS",
+      "gender": "Male",
+      "SeniorCitizen": 0,
+      "Partner": "Yes",
+      "Dependents": "Yes",
+      "tenure": 72,
+      "PhoneService": "Yes",
+      "MultipleLines": "Yes",
+      "InternetService": "Fiber optic",
+      "OnlineSecurity": "Yes",
+      "OnlineBackup": "Yes",
+      "DeviceProtection": "Yes",
+      "TechSupport": "Yes",
+      "StreamingTV": "Yes",
+      "StreamingMovies": "Yes",
+      "Contract": "Two year",
+      "PaperlessBilling": "Yes",
+      "PaymentMethod": "Credit card (automatic)",
+      "MonthlyCharges": 114.05,
+      "TotalCharges": 8468.2
+    }
+  ]
+}

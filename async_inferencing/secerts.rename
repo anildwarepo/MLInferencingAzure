@@ -1,0 +1,7 @@
+CONNECTION_STR='<Azure Service Bus Connection String>'
+TOPIC_NAME='async-pub-sub'
+SUBSCRIPTION_NAME='ml-endpoint-subscriber'
+ML_ENDPOINT_CLIENT_SUBSCRIPTION_NAME='ml-endpoint-client-subscriber'
+AzureBlobStorage_Connection_String = "<Azure Blob Storage Connection String>"
+AzureBlob_Container_Name = "mlinferencing"
+Blob_Name = "test-data-scoring-async.json"
