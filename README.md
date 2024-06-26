@@ -17,6 +17,12 @@
 Asynchronous machine learning inferencing involves using Azure Service Bus and Azure Machine Learning endpoints to handle large-scale data processing in a non-blocking manner. This approach is beneficial for scenarios where immediate responses are not necessary, and processing can be queued and handled as resources become available.
 
 
+This repository provides a step-by-step guide to setting up an asynchronous inferencing pipeline using Azure Service Bus and Azure Machine Learning endpoints. The key components include:
+* Prebuilt machine learning model artifacts. The model is a telco churn prediction model.
+* Azure Machine Learning workspace and environment configurations.
+* Azure Machine Learning endpoints for synchronous and asynchronous inferencing.
+* Prebuilt scoring file for synchronous and asynchronous inferencing. The same does both.
+
 ### Referencing Architecture
 
 ![](./MLEndpointswithAsyncInferencing.drawio.png)
@@ -79,12 +85,16 @@ To set up an Azure Machine Learning Workspace, you can follow the detailed steps
 ## Registering an Azure ML Model
 
 To register a model in Azure Machine Learning, follow these steps:
-    
+
+Update the name, version, and path of the model in the `model.yml` file.
+
 ```bash
-az ml model register --name ml-inferening-base-model --version 1 --type MLFLOW --path ./model_artifacts
+az ml model create -f model.yml
 ```
 
 ## Creating Azure ML Environments
+
+Update name and version of the environment in the `env_async.yml` file.
 
 To create environments for Azure Machine Learning, follow these steps:
     
@@ -101,18 +111,36 @@ Azure Machine Learning endpoints are used to deploy models and handle inferencin
 ### Key Operations
 
 1. **Create Endpoint**:
-    ```
-    cd async_inferencing
-    ```
+```
+cd async_inferencing
+```
+
+Update name in the `endpoint_async.yml` and run the following command:
 
     ```bash
     az ml online-endpoint create --file endpoint_async.yml 
     ```
 2. **Create Deployment**:
+
+Update name, model, model version and environment in the `deployment_async.yml` file.
+Rename secrets.rename to secrets.env and update it with required credentials and names. 
+
     ```bash
     az ml online-deployment create --file deployment_async.yml 
     ```
-3. **Update Endpoint Traffic**:
+
+3. **Update Deployment**:
+
+If the scoring file or environment needs to be updated, run the following command: 
+
+    ```bash
+    az ml online-deployment update --file deployment_async.yml
+    ```
+
+4. **Update Endpoint Traffic**:
+
+Allocate traffic to the async endpoint with 100% weight.
+
     ```bash
     az ml online-endpoint update --name ml-inferencing-endpoint-async --traffic "async=100"
     ```
@@ -143,9 +171,45 @@ This provided scoring file operates in both sync and async modes. The sync mode 
     ```python
     def run(data):
         input_data = preprocess(data)
-        prediction = model.predict(input_data)
-        result = postprocess(prediction)
+        predictions = run_inferencing(data)
+        result = postprocess(predictions)
         return result
+    ```
+
+3. **Async processing**:
+    ```python
+    def receive_messages():
+    while True:
+        servicebus_client = ServiceBusClient.from_connection_string(conn_str=CONNECTION_STR)
+        session_id = ""
+        with servicebus_client:
+            receiver = servicebus_client.get_subscription_receiver(
+                topic_name=TOPIC_NAME,
+                subscription_name=ML_ENDPOINT_CLIENT_SUBSCRIPTION_NAME,
+                #session_id=session_id
+            )
+            with receiver:
+                received_msgs = receiver.receive_messages(max_message_count=10, max_wait_time=5)
+                for msg in received_msgs:
+                    print("Received: " + str(msg))
+                    print("-------------------------")
+                    #send_messages(session_id, f"Message received on {session_id}:{str(msg)}")
+                    # Complete the message so that it is not received again
+                    receiver.complete_message(msg)                
+                    try:
+                        data_dict = json.loads(str(msg))
+                        session_id = data_dict['session_id']
+                        blob_url = data_dict['blob_url']
+                        blob_data = downloadFile(blob_url)['data']
+                        print(f"Blob data downloaded.{blob_data}")
+                        data=pd.DataFrame(blob_data)
+                        print(f"Data loaded into pandas: {data}")
+                        predictions = run_inferencing(data)
+                        send_messages(session_id, f"Message received on {session_id}:{predictions}")
+                        print("Message sent back to client.")
+                    except:
+                        print("Invalid message received.")
+                        pass
     ```
 
 ## End-to-End Workflow
@@ -162,6 +226,13 @@ This provided scoring file operates in both sync and async modes. The sync mode 
 ### Example Test Scripts
 
 - **Synchronous Test**:
+
+Retrieve endpoint url and key from Azure Machine Learning Studio.
+
+![](./mlendpointurlandkey.png)
+
+Update the `endpoint_url` and `endpoint_key` in the `test-ml-endpoint-async.py` file.
+
     ```bash
     python .\test-ml-endpoint-async.py sync
     ```

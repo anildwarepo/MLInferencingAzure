@@ -6,7 +6,7 @@ model: azureml:ml-inferening-base-model:1
 code_configuration:
   code: ./
   scoring_script: score_async.py
-environment: azureml:ml-inferening-base-environment_async:1
+environment: azureml:ml-inferening-base-environment_async:2
 instance_type: Standard_DS1_v2
 instance_count: 1
 app_insights_enabled: true

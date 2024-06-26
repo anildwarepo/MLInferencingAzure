@@ -1,4 +1,5 @@
 $schema: https://azuremlschemas.azureedge.net/latest/environment.schema.json
 name: ml-inferening-base-environment_async
+version: 2
 build:
   path: docker-contexts
