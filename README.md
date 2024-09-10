@@ -330,7 +330,8 @@ credentials:
 ```
 
 ```bash
-az ml connection create --file <yml file> --resource-group <resource group> --workspace-name <workspace>
+cd environment_customacr
+az ml connection create --file ws_acr_connection.yml
 ```
 3. Create new environment with your custom docker image
 
@@ -359,3 +360,8 @@ az role assignment create --assignee-object-id $system_identity --assignee-princ
 ```bash
 az ml online-deployment create --file deployment.yml
 ```
+
+
+az ml workspace provision-network -g aml-rg -n aml-testws
+
+az ml workspace show -g aml-rg -n aml-testws --query managed_network

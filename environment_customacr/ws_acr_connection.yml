@@ -1,0 +1,7 @@
+name: <acr_name>
+type: container_registry
+target: <acr_name>.azurecr.io # e.g. myregistry.azurecr.io
+credentials:
+  type: username_password
+  username: <acr username>
+  password: <acr password>
