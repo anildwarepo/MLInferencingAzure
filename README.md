@@ -307,3 +307,55 @@ Update the `endpoint_url` and `endpoint_key` in the `test-ml-endpoint-async.py` 
     ```
 - The async operation returns the prediction asynchronously through the service bus topic.
 
+
+## Use Non-workspace Azure Container Registry
+
+Managed Online Endpoints can pull images from Non-workspace Azure Container Registry (ACR). To configure your own Azure Container Registry, you need to create a connection to the ACR and grant pull permission to the system-assigned identity of the endpoint.
+
+If ACR has network firewall, the Private Endpoint for ACR should be created in the same VNet as the Azure Machine Learning workspace.
+
+1. create connection to ACR in Azure ML workspace
+
+acr_connection.yml
+
+```yml
+
+name: test_ws_conn_cr
+type: container_registry
+target: <url_container_registry> # e.g. myregistry.azurecr.io
+credentials:
+  type: username_password
+  username: __TOKEN__
+  password: ***
+```
+
+```bash
+az ml connection create --file <yml file> --resource-group <resource group> --workspace-name <workspace>
+```
+3. Create new environment with your custom docker image
+
+Update image in the `env.yml` file.
+
+```bash
+cd environment_customacr
+az ml environment create -f env.yml
+```
+
+3. Grant ACR pull permission to the system assigned identity of the endpoint
+
+```bash
+ACR_NAME="<YOUR ACR NAME>"
+ACR_RESOURCE_GROUP="<ACR RESOURCE GROUP>"
+ENDPOINT_NAME="<YOUR ENDPOINT NAME>"
+system_identity=`az ml online-endpoint show --name $ENDPOINT_NAME --query "identity.principal_id" -o tsv`
+acr_id=`az acr show --name $ACR_NAME -g $ACR_RESOURCE_GROUP  --query "id" -o tsv`
+az role assignment create --assignee-object-id $system_identity --assignee-principal-type ServicePrincipal --scope $acr_id --role acrpull
+```
+
+4. Update the Environment name in the deployment.yml file.
+
+5. Create deployment
+
+```bash
+az ml online-deployment create --file deployment.yml
+```

@@ -13,13 +13,13 @@ body = str.encode(json.dumps(data))
 
 url = 'https://ml-inferencing-endpoint.northcentralus.inference.ml.azure.com/score'
 # Replace this with the primary/secondary key, AMLToken, or Microsoft Entra ID token for the endpoint
-api_key = '4oN6kkLYEY4u8iCq31YRQO3Hq7pnDsOY'
+api_key = 'l1BtKMmdqrGOZPpBHUf4YmdbtwqeeFw0'
 if not api_key:
     raise Exception("A key should be provided to invoke the endpoint")
 
 # The azureml-model-deployment header will force the request to go to a specific deployment.
 # Remove this header to have the request observe the endpoint traffic rules
-headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'production' }
+headers = {'Content-Type':'application/json', 'Authorization':('Bearer '+ api_key), 'azureml-model-deployment': 'production-3' }
 
 req = urllib.request.Request(url, body, headers)
 
