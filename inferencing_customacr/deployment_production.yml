@@ -1,12 +1,12 @@
 $schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
-name: production-1
-endpoint_name: anildwa1-mvnet #setup replace `mlops-workshop-endpoint` with your own endpoint name defined in endpoint.yml
+name: production-3
+endpoint_name: anildwa1-ep2 #setup replace `mlops-workshop-endpoint` with your own endpoint name defined in endpoint.yml
 #egress_public_network_access: disabled # not required for managed vnet
 model: azureml:ml-inferening-base-model:1
 code_configuration:
   code: ./
   scoring_script: score.py
-environment: azureml:ml-inferening-custom-acr-environment:1
+environment: azureml:ml-inferening-custom-acr-environment:2
 instance_type: Standard_DS1_v2
 instance_count: 1
 app_insights_enabled: true

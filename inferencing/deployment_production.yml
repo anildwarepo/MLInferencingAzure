@@ -1,6 +1,6 @@
 $schema: https://azuremlschemas.azureedge.net/latest/managedOnlineDeployment.schema.json
 name: production
-endpoint_name: ml-inferencing-endpoint #setup replace `mlops-workshop-endpoint` with your own endpoint name defined in endpoint.yml
+endpoint_name: anildwa-ep2 #setup replace `mlops-workshop-endpoint` with your own endpoint name defined in endpoint.yml
 #egress_public_network_access: disabled # not required for managed vnet
 model: azureml:ml-inferening-base-model:1
 code_configuration:

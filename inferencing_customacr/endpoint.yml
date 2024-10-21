@@ -1,4 +1,4 @@
 $schema: https://azuremlschemas.azureedge.net/latest/managedOnlineEndpoint.schema.json
-name: anildwa1-mvnet #setup replace `mlops-workshop-endpoint` with your own endpoint name. It has to be globally unique
+name: anildwa1-ep2 #setup replace `mlops-workshop-endpoint` with your own endpoint name. It has to be globally unique
 auth_mode: key
-public_network_access: disabled
+#public_network_access: disabled

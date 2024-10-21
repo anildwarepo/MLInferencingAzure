@@ -113,13 +113,10 @@ To set up an Azure Machine Learning Workspace, you can follow the detailed steps
 
 3. **Configure defaults for the workspace and resource group**:
     ```bash
-    az configure --defaults workspace=aml-northcentral resource_group=aml-rg
+    az configure --defaults workspace=aml-northcentral group=aml-rg
     ```
 
-4. **Set the workspace context**:
-    ```bash
-    az ml workspace set -g aml-rg -w aml-northcentral
-    ```
+
 
 ## Registering an Azure ML Model
 
@@ -128,6 +125,7 @@ To register a model in Azure Machine Learning, follow these steps:
 Update the name, version, and path of the model in the `model.yml` file.
 
 ```bash
+cd model
 az ml model create -f model.yml
 ```
 
